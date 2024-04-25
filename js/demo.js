@@ -3,25 +3,25 @@ buzz.defaults.preload = 'metadata';
 
 var games = [
     { img: 'img/elephant.png', color:'#a36513', word: 'elephant', sound: 'sounds/elephant' },
-    { img: 'img/monkey.png', color:'#ffc48b', word: 'monkey', sound: 'sounds/monkey' },
+    { img: 'img/monkey.png', color:'#e8c39c', word: 'monkey', sound: 'sounds/monkey' },
     { img: 'img/bear.png', color:'#807148', word: 'bear', sound: 'sounds/bear' },
     { img: 'img/horse.png', color:'#bc9e6c', word: 'horse', sound: 'sounds/horse' },
-    { img: 'img/parrot.png', color:'#ff5f09', word: 'parrot', sound: 'sounds/parrot' },
-    { img: 'img/crow.png', color:'#c81f27', word: 'crow', sound: 'sounds/crow' },
-    { img: 'img/cow.png', color:'#b3eef4', word: 'cow', sound: 'sounds/cow' },
-    { img: 'img/dolphin.png', color:'#d5ea86', word: 'dolphin', sound: 'sounds/dolphin' },
+    { img: 'img/parrot.png', color:'#83f28f', word: 'parrot', sound: 'sounds/parrot' },
+    { img: 'img/crow.png', color:'#222222', word: 'crow', sound: 'sounds/rabe' },
+    { img: 'img/cow.png', color:'#2f4538', word: 'cow', sound: 'sounds/cow' },
+    { img: 'img/dolphin.png', color:'#02055a', word: 'dolphin', sound: 'sounds/dolphin' },
     { img: 'img/lion.png', color:'#dd992d', word: 'lion', sound: 'sounds/lion' },
-    { img: 'img/wolf.png', color:'#dd992d', word: 'wolf', sound: 'sounds/wolf' },
-    { img: 'img/panda.png', color:'#dd992d', word: 'panda', sound: 'sounds/panda' },
-    { img: 'img/cat.png', color:'#dd992d', word: 'cat', sound: 'sounds/cat' },
-    { img: 'img/puppy.png', color:'#dd992d', word: 'puppy', sound: 'sounds/puppy' },
+    { img: 'img/wolf.png', color:'#2e2e2e', word: 'wolf', sound: 'sounds/wolf' },
+    { img: 'img/panda.png', color:'#989a91', word: 'panda', sound: 'sounds/panda' },
+    { img: 'img/cat.png', color:'#e17f93', word: 'cat', sound: 'sounds/cat' },
+    { img: 'img/seagull.png', color:'#00aae4', word: 'seagull', sound: 'sounds/seagull' },
+    { img: 'img/puppy.png', color:'#834f23', word: 'puppy', sound: 'sounds/puppy' },
     { img: 'img/rooster.png', color:'#dd992d', word: 'rooster', sound: 'sounds/rooster' },
     { img: 'img/gorilla.png', color:'#176580', word: 'gorilla', sound: 'sounds/gorilla' },
-    { img: 'img/fox.png', color:'#dd992d', word: 'fox', sound: 'sounds/fox' },
+    { img: 'img/fox.png', color:'#0fffff', word: 'fox', sound: 'sounds/fox' },
     { img: 'img/sheep.png', color:'#dd992d', word: 'sheep', sound: 'sounds/schafe' },
-    { img: 'img/duck.png', color:'#dd992d', word: 'duck', sound: 'sounds/duck' },
-    { img: 'img/seagull.png', color:'#dd992d', word: 'seagull', sound: 'sounds/seagull' },
-    { img: 'img/rhinoceros.png', color:'#dd992d', word: 'rhinoceros', sound: 'sounds/rhinoceros' }
+    { img: 'img/duck.png', color:'#add8e6', word: 'duck', sound: 'sounds/duck' },
+    { img: 'img/rhinoceros.png', color:'#eaa222', word: 'rhinoceros', sound: 'sounds/rhinoceros' }
 ];
 
 var hardGames = [
