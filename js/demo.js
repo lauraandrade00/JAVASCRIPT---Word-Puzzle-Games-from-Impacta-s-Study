@@ -2,49 +2,26 @@ buzz.defaults.formats = ['ogg', 'mp3'];
 buzz.defaults.preload = 'metadata';
 
 var games = [
-    { img: 'img/elephant.png', color:'#a36513', word: 'elephant', sound: 'sounds/elephant' },
-    { img: 'img/monkey.png', color:'#e8c39c', word: 'monkey', sound: 'sounds/monkey' },
-    { img: 'img/bear.png', color:'#807148', word: 'bear', sound: 'sounds/bear' },
-    { img: 'img/horse.png', color:'#bc9e6c', word: 'horse', sound: 'sounds/horse' },
-    { img: 'img/parrot.png', color:'#83f28f', word: 'parrot', sound: 'sounds/parrot' },
-    { img: 'img/crow.png', color:'#222222', word: 'crow', sound: 'sounds/rabe' },
-    { img: 'img/cow.png', color:'#2f4538', word: 'cow', sound: 'sounds/cow' },
-    { img: 'img/dolphin.png', color:'#02055a', word: 'dolphin', sound: 'sounds/dolphin' },
-    { img: 'img/lion.png', color:'#dd992d', word: 'lion', sound: 'sounds/lion' },
-    { img: 'img/wolf.png', color:'#2e2e2e', word: 'wolf', sound: 'sounds/wolf' },
-    { img: 'img/panda.png', color:'#989a91', word: 'panda', sound: 'sounds/panda' },
-    { img: 'img/cat.png', color:'#e17f93', word: 'cat', sound: 'sounds/cat' },
-    { img: 'img/seagull.png', color:'#00aae4', word: 'seagull', sound: 'sounds/seagull' },
-    { img: 'img/puppy.png', color:'#834f23', word: 'puppy', sound: 'sounds/puppy' },
-    { img: 'img/rooster.png', color:'#f94449', word: 'rooster', sound: 'sounds/rooster' },
-    { img: 'img/gorilla.png', color:'#176580', word: 'gorilla', sound: 'sounds/gorilla' },
-    { img: 'img/fox.png', color:'#0fffff', word: 'fox', sound: 'sounds/fox' },
-    { img: 'img/sheep.png', color:'#dd992d', word: 'sheep', sound: 'sounds/schafe' },
-    { img: 'img/duck.png', color:'#add8e6', word: 'duck', sound: 'sounds/duck' },
-    { img: 'img/rhinoceros.png', color:'#eaa222', word: 'rhinoceros', sound: 'sounds/rhinoceros' }
-];
-
-var hardGames = [
-    { img: 'img/elephantsSilhouette.png', color:'#a36513', word: 'elephant', sound: 'sounds/elephant' },
-    { img: 'img/monkeysSilhouette.png', color:'#e8c39c', word: 'monkey', sound: 'sounds/monkey' },
-    { img: 'img/bearsSilhouette.png', color:'#807148', word: 'bear', sound: 'sounds/bear' },
-    { img: 'img/horsesSilhouette.png', color:'#bc9e6c', word: 'horse', sound: 'sounds/horse' },
-    { img: 'img/parrotsSilhouette.png', color:'#83f28f', word: 'parrot', sound: 'sounds/parrot' },
-    { img: 'img/crowsSilhouette.png', color:'#222222', word: 'crow', sound: 'sounds/rabe' },
-    { img: 'img/cowsSilhouette.png', color:'#2f4538', word: 'cow', sound: 'sounds/cow' },
-    { img: 'img/dolphinsSilhouette.png', color:'#02055a', word: 'dolphin', sound: 'sounds/dolphin' },
-    { img: 'img/lionsSilhouette.png', color:'#dd992d', word: 'lion', sound: 'sounds/lion' },
-    { img: 'img/wolfsSilhouette.png', color:'#2e2e2e', word: 'wolf', sound: 'sounds/wolf' },
-    { img: 'img/pandasSilhouette.png', color:'#989a91', word: 'panda', sound: 'sounds/panda' },
-    { img: 'img/catsSilhouette.png', color:'#e17f93', word: 'cat', sound: 'sounds/meow' },
-    { img: 'img/seagullsSilhouette.png', color:'#dd992d', word: 'seagull', sound: 'sounds/seagull' },
-    { img: 'img/puppysSilhouette.png', color:'#834f23', word: 'puppy', sound: 'sounds/puppy' },
-    { img: 'img/roostersSilhouette.png', color:'#f94449', word: 'rooster', sound: 'sounds/rooster' },
-    { img: 'img/gorillasSilhouette.png', color:'#176580', word: 'gorilla', sound: 'sounds/gorilla' },
-    { img: 'img/foxsSilhouette.png', color:'#0fffff', word: 'fox', sound: 'sounds/fox' },
-    { img: 'img/sheepsSilhouette.png', color:'#dd992d', word: 'sheep', sound: 'sounds/schafe' },
-    { img: 'img/ducksSilhouette.png', color:'#add8e6', word: 'duck', sound: 'sounds/duck' },
-    { img: 'img/rhinocerossSilhouette.png', color:'#eaa222', word: 'rhinoceros', sound: 'sounds/rhinoceros' }
+    { img: 'img/elephant.png', imgHard: 'img/elephantsSilhouette.png', color:'#a36513', word: 'elephant', sound: 'sounds/elephant' },
+    { img: 'img/monkey.png', imgHard: 'img/monkeysSilhouette.png', color:'#e8c39c', word: 'monkey', sound: 'sounds/monkey' },
+    { img: 'img/bear.png', imgHard: 'img/bearsSilhouette.png', color:'#807148', word: 'bear', sound: 'sounds/bear' },
+    { img: 'img/horse.png', imgHard: 'img/horsesSilhouette.png', color:'#bc9e6c', word: 'horse', sound: 'sounds/horse' },
+    { img: 'img/parrot.png', imgHard: 'img/parrotsSilhouette.png', color:'#83f28f', word: 'parrot', sound: 'sounds/parrot' },
+    { img: 'img/crow.png', imgHard: 'img/crowsSilhouette.png', color:'#222222', word: 'crow', sound: 'sounds/rabe' },
+    { img: 'img/cow.png', imgHard: 'img/cowsSilhouette.png', color:'#2f4538', word: 'cow', sound: 'sounds/cow' },
+    { img: 'img/dolphin.png', imgHard: 'img/dolphinsSilhouette.png', color:'#02055a', word: 'dolphin', sound: 'sounds/dolphin' },
+    { img: 'img/lion.png', imgHard: 'img/lionsSilhouette.png', color:'#dd992d', word: 'lion', sound: 'sounds/lion' },
+    { img: 'img/wolf.png', imgHard: 'img/wolfsSilhouette.png', color:'#2e2e2e', word: 'wolf', sound: 'sounds/wolf' },
+    { img: 'img/panda.png', imgHard: 'img/pandasSilhouette.png', color:'#989a91', word: 'panda', sound: 'sounds/panda' },
+    { img: 'img/cat.png', imgHard: 'img/catsSilhouette.png', color:'#e17f93', word: 'cat', sound: 'sounds/meow' },
+    { img: 'img/seagull.png', imgHard: 'img/seagullsSilhouette.png', color:'#dd992d', word: 'seagull', sound: 'sounds/seagull' },
+    { img: 'img/puppy.png', imgHard: 'img/puppysSilhouette.png', color:'#834f23', word: 'puppy', sound: 'sounds/puppy' },
+    { img: 'img/rooster.png', imgHard: 'img/roostersSilhouette.png', color:'#f94449', word: 'rooster', sound: 'sounds/rooster' },
+    { img: 'img/gorilla.png', imgHard: 'img/gorillasSilhouette.png', color:'#176580', word: 'gorilla', sound: 'sounds/gorilla' },
+    { img: 'img/fox.png', imgHard: 'img/foxsSilhouette.png', color:'#0fffff', word: 'fox', sound: 'sounds/fox' },
+    { img: 'img/sheep.png', imgHard: 'img/sheepsSilhouette.png', color:'#dd992d', word: 'sheep', sound: 'sounds/schafe' },
+    { img: 'img/duck.png', imgHard: 'img/ducksSilhouette.png', color:'#add8e6', word: 'duck', sound: 'sounds/duck' },
+    { img: 'img/rhinoceros.png', imgHard: 'img/rhinocerossSilhouette.png', color:'#eaa222', word: 'rhinoceros', sound: 'sounds/rhinoceros' }
 ];
 
 
@@ -115,7 +92,12 @@ $(function () {
     function buildGame(x) {
         var gameSet = games;
         if ($('#level').text() == 'hard') {
-            gameSet = hardGames;
+            gameSet = games.map(function(game) {
+                return {
+                    ...game,
+                    img: game.imgHard // Usar a imagem "hard" em vez da imagem padrão
+                };
+            });
         }
         
         if (x > gameSet.length - 1) {
@@ -140,12 +122,11 @@ $(function () {
         }, 1000);
 
         // Update the picture
-        $picture.attr('src', game.img)
-            .unbind('click')
-            .bind('click', function () {
-                gameSound.play();
-            });
-
+        if ($('#level').text() === 'hard') {
+            $picture.attr('src', game.imgHard);
+        } else {
+            $picture.attr('src', game.img);
+        }
         // Build model
         var modelLetters = game.word.split('');
 
