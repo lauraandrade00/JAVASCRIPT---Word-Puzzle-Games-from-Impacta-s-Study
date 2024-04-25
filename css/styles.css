@@ -110,7 +110,7 @@ body {
 		color:#000;
 		color:rgba( 0, 0, 0, 0.7 );
 	}
-	#models.hard li {
+	#models.medium li {
 		color:rgba( 0, 0, 0, 0 );
 	}
 	#models li.hover {
