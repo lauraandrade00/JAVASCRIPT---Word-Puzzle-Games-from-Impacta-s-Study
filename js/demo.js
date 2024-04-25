@@ -13,7 +13,7 @@ var games = [
     { img: 'img/lion.png', color:'#dd992d', word: 'lion', sound: 'sounds/lion' },
     { img: 'img/wolf.png', color:'#2e2e2e', word: 'wolf', sound: 'sounds/wolf' },
     { img: 'img/panda.png', color:'#989a91', word: 'panda', sound: 'sounds/panda' },
-    { img: 'img/cat.png', color:'#e17f93', word: 'cat', sound: 'sounds/cat' },
+    { img: 'img/cat.png', color:'#e17f93', word: 'cat', sound: 'sounds/meow' },
     { img: 'img/seagull.png', color:'#00aae4', word: 'seagull', sound: 'sounds/seagull' },
     { img: 'img/puppy.png', color:'#834f23', word: 'puppy', sound: 'sounds/puppy' },
     { img: 'img/rooster.png', color:'#f94449', word: 'rooster', sound: 'sounds/rooster' },
