@@ -47,10 +47,14 @@ var hardGames = [
     { img: 'img/rhinocerossSilhouette.png', color:'#eaa222', word: 'rhinoceros', sound: 'sounds/rhinoceros' }
 ];
 
+
 var winSound = new buzz.sound('sounds/win'),
     errorSound = new buzz.sound('sounds/error'),
     alphabetSounds = {},
     alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
+var errorCount = 0, 
+    consecutiveErrors = 0; 
 
 for (var i in alphabet) {
     var letter = alphabet[i];
@@ -88,12 +92,15 @@ $(function () {
         if ($(this).text() == 'easy') {
             $(this).text('medium');
             $models.addClass('medium');
+            changeLevel();
         } else if ($(this).text() == 'medium') {
             $(this).text('hard');
             $models.addClass('hard');
+            changeLevel();
         } else {
             $(this).text('easy');
             $models.removeClass('medium').removeClass('hard');
+            changeLevel();
         }
         return false;
     });
@@ -101,6 +108,8 @@ $(function () {
     function refreshGame() {
         $('#models').html('');
         $('#letters').html('');
+        consecutiveErrors = 0; 
+        errorCount = 0; 
     }
 
     function buildGame(x) {
@@ -207,6 +216,14 @@ $(function () {
 
                     errorSound.play();
 
+                    errorCount++; 
+                    consecutiveErrors++; 
+                    var level = $('#level').text();
+                    if ((level == 'medium' && errorCount >= 5) || 
+                        (level == 'hard' && consecutiveErrors >= 3)) {
+                        checkErrorCount();
+                    }
+
                     setTimeout(function () {
                         ui.draggable.draggable('option', 'revert', false);
                     }, 100);
@@ -231,6 +248,20 @@ $(function () {
             refreshGame();
             buildGame(++idx);
         }, 3000);
+    }
+
+    function checkErrorCount() {
+        var answer = confirm("Você cometeu " + (errorCount >= 5 ? '5 erros' : '3 erros consecutivos') + " no nível " + $('#level').text() + ". Deseja mudar para o nível fácil?");
+        if (answer) {
+            changeLevel();
+        }
+    }
+
+    function changeLevel() {
+        refreshGame();
+        buildGame(0); 
+        errorCount = 0;
+        consecutiveErrors = 0;
     }
 
     function rotate(el, angle) {
