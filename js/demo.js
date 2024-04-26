@@ -248,16 +248,24 @@ $(function () {
     function checkErrorCount() {
         var answer = confirm("Você cometeu " + (errorCount >= 5 ? '5 erros' : '3 erros consecutivos') + " no nível " + $('#level').text() + ". Deseja mudar para o nível fácil?");
         if (answer) {
-            changeLevel();
+            changeLevelEasy();
         }
+    }
+
+    function changeLevelEasy() {
+        $('#level').text('easy');
+
+        // Remover classes adicionais para os outros níveis
+        $models.removeClass('medium').removeClass('hard');
+        refreshGame();
+        buildGame(0); 
     }
 
     function changeLevel() {
         refreshGame();
         buildGame(0); 
-        errorCount = 0;
-        consecutiveErrors = 0;
     }
+
 
     function rotate(el, angle) {
         $(el).css({
