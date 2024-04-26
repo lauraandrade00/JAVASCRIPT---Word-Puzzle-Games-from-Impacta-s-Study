@@ -1,7 +1,7 @@
 
 # Projeto de aprimoramento de Word Puzzle Game 
 
-O presente projeto diz respeito a otimização e implementação de código de um projeto referente a um documento já pré-concebido pertencente ao docente Celio Souza da plataforma de ensino Impacta. Neste, realizando uma parceria em dupla, eu e Juliana Barros adicionamos algumas funcionalidades e também buscamos otimizar o que já existia, focando de tornar a aplicação mais responsiva e interativa com o usuário, tornando sua experiência ainda mais enriquecedora.
+O presente projeto diz respeito a otimização e implementação de código, arquivo esse referente a um documento já pré-concebido pertencente ao docente Celio Souza, que ministra cursos da plataforma de ensino Impacta. Neste, realizando uma colaboaração em dupla, eu e Juliana adicionamos algumas funcionalidades e também buscamos otimizar o que já existia, focando de tornar a aplicação mais responsiva e interativa com o usuário, tornando sua experiência ainda mais enriquecedora.
 
 
 ## Funcionalidades
