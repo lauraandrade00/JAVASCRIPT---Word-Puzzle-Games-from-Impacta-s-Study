@@ -249,6 +249,9 @@ $(function () {
         var answer = confirm("Você cometeu " + (errorCount >= 5 ? '5 erros' : '3 erros consecutivos') + " no nível " + $('#level').text() + ". Deseja mudar para o nível fácil?");
         if (answer) {
             changeLevelEasy();
+        } else {
+            consecutiveErrors = 0; 
+            errorCount = 0; 
         }
     }
 
