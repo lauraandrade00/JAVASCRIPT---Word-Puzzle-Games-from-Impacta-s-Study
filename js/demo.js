@@ -16,12 +16,12 @@ var games = [
         { img: 'img/cat.png', imgHard: 'img/catsSilhouette.png', color:'#e17f93', word: 'cat', sound: 'sounds/meow' },
         { img: 'img/seagull.png', imgHard: 'img/seagullsSilhouette.png', color:'#dd992d', word: 'seagull', sound: 'sounds/seagull' },
         { img: 'img/puppy.png', imgHard: 'img/puppysSilhouette.png', color:'#834f23', word: 'puppy', sound: 'sounds/puppy' },
+        { img: 'img/rhinoceros.png', imgHard: 'img/rhinocerossSilhouette.png', color:'#eaa222', word: 'rhinoceros', sound: 'sounds/rhinoceros' },
         { img: 'img/rooster.png', imgHard: 'img/roostersSilhouette.png', color:'#f94449', word: 'rooster', sound: 'sounds/rooster' },
         { img: 'img/gorilla.png', imgHard: 'img/gorillasSilhouette.png', color:'#176580', word: 'gorilla', sound: 'sounds/gorilla' },
         { img: 'img/fox.png', imgHard: 'img/foxsSilhouette.png', color:'#0fffff', word: 'fox', sound: 'sounds/fox' },
         { img: 'img/sheep.png', imgHard: 'img/sheepsSilhouette.png', color:'#dd992d', word: 'sheep', sound: 'sounds/schafe' },
-        { img: 'img/duck.png', imgHard: 'img/ducksSilhouette.png', color:'#add8e6', word: 'duck', sound: 'sounds/duck' },
-        { img: 'img/rhinoceros.png', imgHard: 'img/rhinocerossSilhouette.png', color:'#eaa222', word: 'rhinoceros', sound: 'sounds/rhinoceros' }
+        { img: 'img/duck.png', imgHard: 'img/ducksSilhouette.png', color:'#add8e6', word: 'duck', sound: 'sounds/duck' }
 ];
 
 // sounds variables
@@ -270,30 +270,33 @@ $(function () {
     function winGame() {
         isGameWon = true;
         winSound.play();
+
         // Incrementação da variável de acertos consecutivos
-        if(errorCount == 0) {
+        if (errorCount === 0) {
             consecutiveWins++;
         } else {
             consecutiveWins = 0;
         }
+
+
         // implementação de uma animação caso haja o acerto da palavra, nesse caso foi usado a adição de uma classe com estilização própria que será removida assim que a função setTimeout expirar
-        
         $('#letters li').each(function (i) {
             var $$ = $(this);
             setTimeout(function () {
                 $$.animate({
                     top: '+=60px',
                 });
-                $$.addClass('blinking')
-            }, i + 1 * 300);
+                $$.addClass('blinking');
+                setTimeout(function () {
+                    $$.removeClass('blinking');
+                }, 1000); // Remover a classe 'blinking' após 1 segundo
+            }, i   * 300);
         });
-
+    
         setTimeout(function () {
-            $('#letters li').removeClass('blinking');
-            
             // Verificação de condição de passar para o próximo nível 
             var level = $('#level').text();
-            if (consecutiveWins == 2 && level !== 'hard' ) {
+            if (consecutiveWins === 2 && level !== 'hard') {
                 isGameWon = false;
                 showNextLevelSuggestion();
             } else {
@@ -301,9 +304,9 @@ $(function () {
                 buildGame(++idx);
                 isGameWon = false;
             }
-        }, 3000);
-        
+        }, 3000); // Atraso total de 3 segundos para a próxima ação após a vitória
     }
+    
 
     // Função que sugere o retorno de nível caso erre 5 vezes no nivel medio ou 3 vezes no difícil 
     function checkErrorCount() {
