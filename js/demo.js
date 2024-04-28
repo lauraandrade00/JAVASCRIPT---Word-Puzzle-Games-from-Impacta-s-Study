@@ -24,19 +24,21 @@ var games = [
         { img: 'img/rhinoceros.png', imgHard: 'img/rhinocerossSilhouette.png', color:'#eaa222', word: 'rhinoceros', sound: 'sounds/rhinoceros' }
 ];
 
-
+// sounds variables
 var winSound = new buzz.sound('sounds/win'),
     errorSound = new buzz.sound('sounds/error'),
     alphabetSounds = {},
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
-
-var errorCount = 0, 
-    consecutiveErrors = 0; 
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'.split(''),
+    gameSound = null; // adição da variável gameSound globalmente para manipulação de sobreposição
 
 for (var i in alphabet) {
     var letter = alphabet[i];
     alphabetSounds[letter] = new buzz.sound('sounds/kid/' + letter);
 }
+// counter variables
+var errorCount = 0, 
+    consecutiveErrors = 0,
+    consecutiveWins = 0;
 
 $(function () {
     if (!buzz.isSupported()) {
@@ -53,31 +55,40 @@ $(function () {
         return false
     });
 
+    // Declarando uma variável booleana que impedirá que todos os outros botões do jogo sejam clicados o enquanto a função winGame() estiver em execução, para assim finalizar a animação de vitória sem interrupção e bugs.
+    var isGameWon = false;
+
     $('#next').click(function () {
-        refreshGame();
-        buildGame(++idx);
+        if (!isGameWon) {
+            refreshGame();
+            buildGame(++idx);
+        }
         return false;
     });
 
     $('#previous').click(function () {
-        refreshGame();
-        buildGame(--idx);
+        if (!isGameWon) {
+            refreshGame();
+            buildGame(--idx);
+        }
         return false;
     });
 
     $('#level').click(function () {
-        if ($(this).text() == 'easy') {
-            $(this).text('medium');
-            $models.addClass('medium');
-            changeLevel();
-        } else if ($(this).text() == 'medium') {
-            $(this).text('hard');
-            $models.addClass('hard');
-            changeLevel();
-        } else {
-            $(this).text('easy');
-            $models.removeClass('medium').removeClass('hard');
-            changeLevel();
+        if (!isGameWon) {
+            if ($(this).text() == 'easy') {
+                $(this).text('medium');
+                $models.addClass('medium');
+                changeLevel();
+            } else if ($(this).text() == 'medium') {
+                $(this).text('hard');
+                $models.addClass('hard');
+                changeLevel();
+            } else {
+                $(this).text('easy');
+                $models.removeClass('medium').removeClass('hard');
+                changeLevel();
+            }
         }
         return false;
     });
@@ -89,7 +100,12 @@ $(function () {
         errorCount = 0; 
     }
 
+    // Declaração de variável que irá armazenar o som do jogo atual
+
     function buildGame(x) {
+        if (gameSound) {
+            gameSound.stop();
+        }
         var gameSet = games;
         if ($('#level').text() == 'hard') {
             gameSet = games.map(function(game) {
@@ -110,7 +126,7 @@ $(function () {
         var game = gameSet[idx],
             score = 0;
 
-        var gameSound = new buzz.sound(game.sound);
+        gameSound = new buzz.sound(game.sound);
         gameSound.play();
 
         // Fade the background color
@@ -189,7 +205,7 @@ $(function () {
                     ui.draggable.addClass('blinking')
                     setTimeout(function () {
                         ui.draggable.removeClass('blinking');
-                    }, 700);
+                    }, 1000);
 
                     rotate(ui.draggable, 0);
 
@@ -226,25 +242,87 @@ $(function () {
     }
 
     function winGame() {
+        isGameWon = true;
         winSound.play();
-        // implementação de uma animação caso haja o acerto da palavra, nesse caso foi usado a adição de uma classe com estilização própria que será removida assim que a função setTimeout expirar
+    
+        // Incrementação da variável de acertos consecutivos
+        if (errorCount == 0) {
+            consecutiveWins++;
+        } else {
+            consecutiveWins = 0;
+        }
+    
+        var totalLetters = $('#letters li').length; // Total de letras
+        var animatedCount = 0; // Contador para controlar letras animadas
+    
+        // Implementação da animação para cada letra
         $('#letters li').each(function (i) {
             var $$ = $(this);
             setTimeout(function () {
                 $$.animate({
                     top: '+=60px',
+                }, {
+                    duration: 300, // Duração da animação
+                    complete: function () {
+                        $$.addClass('blinking');
+                        animatedCount++;
+    
+                        // Verifica se todas as letras foram animadas
+                        if (animatedCount === totalLetters) {
+                            setTimeout(function () {
+                                // Após a conclusão da animação de todas as letras
+                                $('#letters li').removeClass('blinking');
+                                refreshGame();
+                                buildGame(++idx);
+                                isGameWon = false;
+                            }, 2000); // Aguarda 2 segundos antes de prosseguir
+                        }
+                    }
                 });
-                $$.addClass('blinking')
-            }, i * 300);
+            }, i * 300); // Intervalo de tempo para animar cada letra
         });
-
-        setTimeout(function () {
-            $('#letters li').removeClass('blinking');
-            refreshGame();
-            buildGame(++idx);
-        }, 3000);
+    
+        var level = $('#level').text();
+        if (consecutiveWins == 2 && level !== 'hard') {
+            showNextLevelSuggestion();
+        }
     }
+    
 
+    // function winGame() {
+    //     isGameWon = true;
+    //     winSound.play();
+    //     // Incrementação da variável de acertos consecutivos
+    //     if(errorCount == 0) {
+    //         consecutiveWins++;
+    //     } else {
+    //         consecutiveWins = 0;
+    //     }
+    //     // implementação de uma animação caso haja o acerto da palavra, nesse caso foi usado a adição de uma classe com estilização própria que será removida assim que a função setTimeout expirar
+        
+    //     $('#letters li').each(function (i) {
+    //         var $$ = $(this);
+    //         setTimeout(function () {
+    //             $$.animate({
+    //                 top: '+=60px',
+    //             });
+    //             $$.addClass('blinking')
+    //         }, i * 300);
+    //     });
+
+    //     setTimeout(function () {
+    //         $('#letters li').removeClass('blinking');
+    //         refreshGame();
+    //         buildGame(++idx);
+    //         isGameWon = false;
+    //     }, 3000);
+    //     var level = $('#level').text();
+    //     if (consecutiveWins == 2 && level !== 'hard' ) {
+    //         showNextLevelSuggestion();
+    //     }
+    // }
+
+    // Função que sugere o retorno de nível
     function checkErrorCount() {
         var answer = confirm("Você cometeu " + (errorCount >= 5 ? '5 erros' : '3 erros consecutivos') + " no nível " + $('#level').text() + ". Deseja mudar para o nível fácil?");
         if (answer) {
@@ -254,6 +332,40 @@ $(function () {
             errorCount = 0; 
         }
     }
+    
+    // Função que sugere a subida de nível
+    function showNextLevelSuggestion() {
+        // Mostra um prompt sugerindo ir para o próximo nível
+        var answer = confirm("Você acertou dois animais seguidos sem cometer erros. Deseja ir para o próximo nível?");
+        if (answer) {
+            // Chama a função para mudar para o próximo nível
+            winSound.stop();
+            changeToNextLevel();
+        } else {
+            // Reinicia o contador de acertos consecutivos
+            consecutiveWins = 0;
+        }
+    }
+
+    function changeToNextLevel() {
+        var currentLevel = $('#level').text();
+        if (currentLevel === 'easy') {
+            $('#level').text('medium');
+            $models.addClass('medium');
+        } else if (currentLevel === 'medium') {
+            $('#level').text('hard');
+            $models.addClass('hard');
+        }
+        setTimeout(function () {
+            // Atualiza o jogo para o novo nível
+            refreshGame();
+            buildGame(0);
+    
+            // Reinicia o contador de acertos consecutivos
+            consecutiveWins = 0;
+        }, 1000);
+    }
+
 
     function changeLevelEasy() {
         $('#level').text('easy');
