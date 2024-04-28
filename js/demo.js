@@ -281,6 +281,7 @@ $(function () {
             // Verificação de condição de passar para o próximo nível 
             var level = $('#level').text();
             if (consecutiveWins == 2 && level !== 'hard' ) {
+                isGameWon = false;
                 showNextLevelSuggestion();
             } else {
                 refreshGame();
