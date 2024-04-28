@@ -200,58 +200,71 @@ $(function () {
             stack: '#letters li'
         });
 
-        $models.find('li').droppable({
-            accept: '.draggable',
-            hoverClass: 'hover',
-            drop: function (e, ui) {
-                
-                var $droppable = $(this);
-                // Verificar se o local já está ocupado
-                if ($droppable.children().length === 0) {
-                    var modelLetter = $droppable.text(),
-                        droppedLetter = ui.helper.text();
-
-                    if (modelLetter == droppedLetter) {
-                        ui.draggable.animate({
-                            top: $droppable.position().top,
-                            left: $droppable.position().left
-                        }).removeClass('draggable').draggable('option', 'disabled', true);
-
-                        ui.draggable.addClass('blinking')
-                        setTimeout(function () {
-                            ui.draggable.removeClass('blinking');
-                        }, 1000);
-
-                        rotate(ui.draggable, 0);
-
-                        score++;
-
-                        if (score == modelLetters.length) {
-                            winGame();
+        $(function () {
+            // Criação de um array para rastrear as posições ocupadas e arrumar o bug de poder colocar uma letra em cima da outra caso sejam iguais.
+            var occupiedPositions = [];
+        
+            $models.find('li').droppable({
+                accept: '.draggable',
+                hoverClass: 'hover',
+                drop: function (e, ui) {
+                    var $droppable = $(this);
+        
+                    // Verificar se a posição já está ocupada
+                    if ($droppable.children().length === 0 && !isPositionOccupied($droppable)) {
+                        var modelLetter = $droppable.text(),
+                            droppedLetter = ui.helper.text();
+        
+                        if (modelLetter == droppedLetter) {
+                            ui.draggable.animate({
+                                top: $droppable.position().top,
+                                left: $droppable.position().left
+                            }).removeClass('draggable').draggable('option', 'disabled', true);
+        
+                            ui.draggable.addClass('blinking');
+                            setTimeout(function () {
+                                ui.draggable.removeClass('blinking');
+                            }, 1000);
+        
+                            rotate(ui.draggable, 0);
+        
+                            score++;
+        
+                            // adiciona a posição que está ocupada ao array
+                            occupiedPositions.push($droppable.index());
+        
+                            if (score == modelLetters.length) {
+                                winGame();
+                            }
+                        } else {
+                            ui.draggable.draggable('option', 'revert', true);
+        
+                            errorSound.play();
+        
+                            ui.draggable.addClass('wrong');
+        
+                            errorCount++;
+                            consecutiveErrors++;
+                            var level = $('#level').text();
+                            if ((level == 'medium' && errorCount >= 5) || (level == 'hard' && consecutiveErrors >= 3)) {
+                                checkErrorCount();
+                            }
+        
+                            setTimeout(function () {
+                                ui.draggable.removeClass('wrong');
+                                ui.draggable.draggable('option', 'revert', false);
+                            }, 700);
                         }
-                    } else {
-                        ui.draggable.draggable('option', 'revert', true);
-
-                        errorSound.play();
-
-                        ui.draggable.addClass('wrong');
-
-                        errorCount++; 
-                        consecutiveErrors++; 
-                        var level = $('#level').text();
-                        if ((level == 'medium' && errorCount >= 5) || 
-                            (level == 'hard' && consecutiveErrors >= 3)) {
-                            checkErrorCount();
-                        }
-
-                        setTimeout(function () {
-                            ui.draggable.removeClass('wrong');
-                            ui.draggable.draggable('option', 'revert', false);
-                        }, 700);
                     }
                 }
+            });
+        
+            // Verifica se a posição está ocupada
+            function isPositionOccupied($droppable) {
+                return occupiedPositions.includes($droppable.index());
             }
         });
+        
     }
 
     function winGame() {
@@ -292,7 +305,7 @@ $(function () {
         
     }
 
-    // Função que sugere o retorno de nível
+    // Função que sugere o retorno de nível caso erre 5 vezes no nivel medio ou 3 vezes no difícil 
     function checkErrorCount() {
         var answer = confirm("Você cometeu " + (errorCount >= 5 ? '5 erros' : '3 erros consecutivos') + " no nível " + $('#level').text() + ". Deseja mudar para o nível fácil?");
         if (answer) {
@@ -339,7 +352,6 @@ $(function () {
         consecutiveWins = 0;
     
     }
-
 
     function changeLevelEasy() {
         $('#level').text('easy');
