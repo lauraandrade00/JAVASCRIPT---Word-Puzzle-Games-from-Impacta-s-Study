@@ -58,6 +58,7 @@ $(function () {
     // Declarando uma variável booleana que impedirá que todos os outros botões do jogo sejam clicados o enquanto a função winGame() estiver em execução, para assim finalizar a animação de vitória sem interrupção e bugs.
     var isGameWon = false;
 
+    // Lógica para avançar para o próximo jogo
     $('#next').click(function () {
         if (!isGameWon) {
             refreshGame();
@@ -66,6 +67,7 @@ $(function () {
         return false;
     });
 
+    // Lógica para voltar para o jogo anterior
     $('#previous').click(function () {
         if (!isGameWon) {
             refreshGame();
@@ -73,6 +75,8 @@ $(function () {
         }
         return false;
     });
+
+     // Lógica para mudar o nível de dificuldade do jogo
 
     $('#level').click(function () {
         if (!isGameWon) {
@@ -93,6 +97,8 @@ $(function () {
         return false;
     });
 
+    //Esta função é responsável por limpar o conteúdo dos modelos de letras e das letras embaralhadas, além de resetar os contadores de erros consecutivos e erros totais.
+
     function refreshGame() {
         $('#models').html('');
         $('#letters').html('');
@@ -102,10 +108,13 @@ $(function () {
 
     // Declaração de variável que irá armazenar o som do jogo atual
 
+    //Verifica se há algum som de jogo em reprodução e, se houver, para a reprodução antes de iniciar um novo jogo.
     function buildGame(x) {
         if (gameSound) {
             gameSound.stop();
         }
+
+        //Dependendo do nível de dificuldade selecionado (fácil, médio ou difícil), o conjunto de jogos pode ser o padrão (games) ou uma versão modificada onde as imagens são substituídas por versões mais difíceis.
         var gameSet = games;
         if ($('#level').text() == 'hard') {
             gameSet = games.map(function(game) {
@@ -116,6 +125,7 @@ $(function () {
             });
         }
         
+        //Garante que o índice do jogo atual (idx) permaneça dentro dos limites válidos do conjunto de jogos. Se o índice exceder o limite máximo, ele volta para o início do conjunto. Se for menor que zero, ele vai para o final do conjunto.
         if (x > gameSet.length - 1) {
             idx = 0;
         }
@@ -123,9 +133,10 @@ $(function () {
             idx = gameSet.length - 1;
         }
 
+        //Obtenção das informações do jogo atual:
         var game = gameSet[idx],
             score = 0;
-
+//Cria um novo objeto de som Buzz.js com o som específico do jogo atual e inicia a reprodução desse som.
         gameSound = new buzz.sound(game.sound);
         gameSound.play();
 
@@ -309,10 +320,15 @@ $(function () {
 
     function changeToNextLevel() {
         var currentLevel = $('#level').text();
+    
         if (currentLevel === 'easy') {
             $('#level').text('medium');
+            $models.addClass('medium');
+       
         } else if (currentLevel === 'medium') {
             $('#level').text('hard');
+            $models.addClass('hard');
+    
         }
         
         refreshGame();
