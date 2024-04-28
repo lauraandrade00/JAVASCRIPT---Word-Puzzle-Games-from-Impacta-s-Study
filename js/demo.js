@@ -193,49 +193,51 @@ $(function () {
             accept: '.draggable',
             hoverClass: 'hover',
             drop: function (e, ui) {
-                var modelLetter = $(this).text(),
-                    droppedLetter = ui.helper.text();
+                
+                var $droppable = $(this);
+                // Verificar se o local já está ocupado
+                if ($droppable.children().length === 0) {
+                    var modelLetter = $droppable.text(),
+                        droppedLetter = ui.helper.text();
 
-                if (modelLetter == droppedLetter) {
-                    ui.draggable.animate({
-                        top: $(this).position().top,
-                        left: $(this).position().left
-                    }).removeClass('draggable').draggable('option', 'disabled', true);
+                    if (modelLetter == droppedLetter) {
+                        ui.draggable.animate({
+                            top: $droppable.position().top,
+                            left: $droppable.position().left
+                        }).removeClass('draggable').draggable('option', 'disabled', true);
 
-                    ui.draggable.addClass('blinking')
-                    setTimeout(function () {
-                        ui.draggable.removeClass('blinking');
-                    }, 1000);
+                        ui.draggable.addClass('blinking')
+                        setTimeout(function () {
+                            ui.draggable.removeClass('blinking');
+                        }, 1000);
 
-                    rotate(ui.draggable, 0);
+                        rotate(ui.draggable, 0);
 
-                    score++;
+                        score++;
 
-                    if (score == modelLetters.length) {
+                        if (score == modelLetters.length) {
+                            winGame();
+                        }
+                    } else {
+                        ui.draggable.draggable('option', 'revert', true);
 
-                        winGame();
+                        errorSound.play();
+
+                        ui.draggable.addClass('wrong');
+
+                        errorCount++; 
+                        consecutiveErrors++; 
+                        var level = $('#level').text();
+                        if ((level == 'medium' && errorCount >= 5) || 
+                            (level == 'hard' && consecutiveErrors >= 3)) {
+                            checkErrorCount();
+                        }
+
+                        setTimeout(function () {
+                            ui.draggable.removeClass('wrong');
+                            ui.draggable.draggable('option', 'revert', false);
+                        }, 700);
                     }
-                } else {
-                    ui.draggable.draggable('option', 'revert', true);
-
-                    errorSound.play();
-
-                    ui.draggable.addClass('wrong');
-
-                    errorCount++; 
-                    consecutiveErrors++; 
-                    var level = $('#level').text();
-                    if ((level == 'medium' && errorCount >= 5) || 
-                        (level == 'hard' && consecutiveErrors >= 3)) {
-                        checkErrorCount();
-                    }
-
-
-                    setTimeout(function () {
-                        ui.draggable.removeClass('wrong');
-                        ui.draggable.draggable('option', 'revert', false);
-                        
-                    }, 700);
                 }
             }
         });
@@ -244,83 +246,39 @@ $(function () {
     function winGame() {
         isGameWon = true;
         winSound.play();
-    
         // Incrementação da variável de acertos consecutivos
-        if (errorCount == 0) {
+        if(errorCount == 0) {
             consecutiveWins++;
         } else {
             consecutiveWins = 0;
         }
-    
-        var totalLetters = $('#letters li').length; // Total de letras
-        var animatedCount = 0; // Contador para controlar letras animadas
-    
-        // Implementação da animação para cada letra
+        // implementação de uma animação caso haja o acerto da palavra, nesse caso foi usado a adição de uma classe com estilização própria que será removida assim que a função setTimeout expirar
+        
         $('#letters li').each(function (i) {
             var $$ = $(this);
             setTimeout(function () {
                 $$.animate({
                     top: '+=60px',
-                }, {
-                    duration: 300, // Duração da animação
-                    complete: function () {
-                        $$.addClass('blinking');
-                        animatedCount++;
-    
-                        // Verifica se todas as letras foram animadas
-                        if (animatedCount === totalLetters) {
-                            setTimeout(function () {
-                                // Após a conclusão da animação de todas as letras
-                                $('#letters li').removeClass('blinking');
-                                refreshGame();
-                                buildGame(++idx);
-                                isGameWon = false;
-                            }, 2000); // Aguarda 2 segundos antes de prosseguir
-                        }
-                    }
                 });
-            }, i * 300); // Intervalo de tempo para animar cada letra
+                $$.addClass('blinking')
+            }, i + 1 * 300);
         });
-    
-        var level = $('#level').text();
-        if (consecutiveWins == 2 && level !== 'hard') {
-            showNextLevelSuggestion();
-        }
-    }
-    
 
-    // function winGame() {
-    //     isGameWon = true;
-    //     winSound.play();
-    //     // Incrementação da variável de acertos consecutivos
-    //     if(errorCount == 0) {
-    //         consecutiveWins++;
-    //     } else {
-    //         consecutiveWins = 0;
-    //     }
-    //     // implementação de uma animação caso haja o acerto da palavra, nesse caso foi usado a adição de uma classe com estilização própria que será removida assim que a função setTimeout expirar
+        setTimeout(function () {
+            $('#letters li').removeClass('blinking');
+            
+            // Verificação de condição de passar para o próximo nível 
+            var level = $('#level').text();
+            if (consecutiveWins == 2 && level !== 'hard' ) {
+                showNextLevelSuggestion();
+            } else {
+                refreshGame();
+                buildGame(++idx);
+                isGameWon = false;
+            }
+        }, 3000);
         
-    //     $('#letters li').each(function (i) {
-    //         var $$ = $(this);
-    //         setTimeout(function () {
-    //             $$.animate({
-    //                 top: '+=60px',
-    //             });
-    //             $$.addClass('blinking')
-    //         }, i * 300);
-    //     });
-
-    //     setTimeout(function () {
-    //         $('#letters li').removeClass('blinking');
-    //         refreshGame();
-    //         buildGame(++idx);
-    //         isGameWon = false;
-    //     }, 3000);
-    //     var level = $('#level').text();
-    //     if (consecutiveWins == 2 && level !== 'hard' ) {
-    //         showNextLevelSuggestion();
-    //     }
-    // }
+    }
 
     // Função que sugere o retorno de nível
     function checkErrorCount() {
@@ -343,6 +301,8 @@ $(function () {
             changeToNextLevel();
         } else {
             // Reinicia o contador de acertos consecutivos
+            refreshGame()
+            buildGame(++idx)
             consecutiveWins = 0;
         }
     }
@@ -351,19 +311,16 @@ $(function () {
         var currentLevel = $('#level').text();
         if (currentLevel === 'easy') {
             $('#level').text('medium');
-            $models.addClass('medium');
         } else if (currentLevel === 'medium') {
             $('#level').text('hard');
-            $models.addClass('hard');
         }
-        setTimeout(function () {
-            // Atualiza o jogo para o novo nível
-            refreshGame();
-            buildGame(0);
+        
+        refreshGame();
+        buildGame(++idx);
     
-            // Reinicia o contador de acertos consecutivos
-            consecutiveWins = 0;
-        }, 1000);
+        // Reinicia o contador de acertos consecutivos
+        consecutiveWins = 0;
+    
     }
 
 
