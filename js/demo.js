@@ -163,7 +163,7 @@ $(function () {
 
         var letterWidth = $models.find('li').outerWidth(true);
 
-        // as bordas dos elementos li (boxes das letras) não estavam entrando no cálculo e por esse motivo todas as palavras geravam uma qu ebra de linha, então para considerá-las na conta fizemos uma adição das bordas adicionais de cada uma das letras presentes(2px)
+        // as bordas dos elementos li (boxes das letras) não estavam entrando no cálculo e por esse motivo todas as palavras geravam uma quebra de linha, então para considerá-las na conta fizemos uma adição das bordas adicionais de cada uma das letras presentes(2px)
         $models.width((letterWidth + 2) * $models.find('li').length);
 
         // Build shuffled letters
