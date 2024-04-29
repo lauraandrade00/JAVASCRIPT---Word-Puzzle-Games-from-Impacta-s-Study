@@ -24,7 +24,7 @@ var games = [
         { img: 'img/duck.png', imgHard: 'img/ducksSilhouette.png', color:'#add8e6', word: 'duck', sound: 'sounds/duck' }
 ];
 
-// sounds variables
+// variáveis de som
 var winSound = new buzz.sound('sounds/win'),
     errorSound = new buzz.sound('sounds/error'),
     alphabetSounds = {},
@@ -35,7 +35,7 @@ for (var i in alphabet) {
     var letter = alphabet[i];
     alphabetSounds[letter] = new buzz.sound('sounds/kid/' + letter);
 }
-// counter variables
+// variáveis contadoras
 var errorCount = 0, 
     consecutiveErrors = 0,
     consecutiveWins = 0;
@@ -106,10 +106,9 @@ $(function () {
         errorCount = 0; 
     }
 
-    // Declaração de variável que irá armazenar o som do jogo atual
 
-    //Verifica se há algum som de jogo em reprodução e, se houver, para a reprodução antes de iniciar um novo jogo.
     function buildGame(x) {
+        //Verifica se há algum som de jogo em reprodução e, se houver, para a reprodução antes de iniciar um novo jogo.
         if (gameSound) {
             gameSound.stop();
         }
@@ -136,7 +135,7 @@ $(function () {
         //Obtenção das informações do jogo atual:
         var game = gameSet[idx],
             score = 0;
-//Cria um novo objeto de som Buzz.js com o som específico do jogo atual e inicia a reprodução desse som.
+        //Cria um novo objeto de som Buzz.js com o som específico do jogo atual e inicia a reprodução desse som.
         gameSound = new buzz.sound(game.sound);
         gameSound.play();
 
