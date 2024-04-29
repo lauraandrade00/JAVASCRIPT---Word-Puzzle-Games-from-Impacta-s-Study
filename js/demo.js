@@ -163,8 +163,8 @@ $(function () {
 
         var letterWidth = $models.find('li').outerWidth(true);
 
-        // as bordas dos elementos li (boxes das letras) estão entrando no cálculo e fazendo com que haja uma quebra de linha, então para considerá-las na conta fizemos uma adição não tão significativa para assim não desalinhar a simetria dos componentes dispostos da página e resolver o problema
-        $models.width((letterWidth + 1) * $models.find('li').length);
+        // as bordas dos elementos li (boxes das letras) não estavam entrando no cálculo e por esse motivo todas as palavras geravam uma qu ebra de linha, então para considerá-las na conta fizemos uma adição das bordas adicionais de cada uma das letras presentes(2px)
+        $models.width((letterWidth + 2) * $models.find('li').length);
 
         // Build shuffled letters
         var letters = game.word.split(''),
