@@ -210,7 +210,7 @@ $(function () {
                     var $droppable = $(this);
         
                     // Verificar se a posição já está ocupada
-                    if ($droppable.children().length === 0 && !isPositionOccupied($droppable)) {
+                    if (!isPositionOccupied($droppable)) {
                         var modelLetter = $droppable.text(),
                             droppedLetter = ui.helper.text();
         
